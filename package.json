@@ -10,10 +10,15 @@
     "test": "jest"
   },
   "dependencies": {
+    "@ant-design/react-native": "^5.0.4",
+    "@types/react-native-permissions": "^2.0.0",
     "axios": "^1.5.0",
     "react": "18.2.0",
     "react-native": "^0.72.4",
-    "react-native-webview": "^13.4.0"
+    "react-native-modal": "^13.0.1",
+    "react-native-permissions": "^3.9.1",
+    "react-native-vector-icons": "^10.0.0",
+    "react-native-webview": "^13.5.1"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",
