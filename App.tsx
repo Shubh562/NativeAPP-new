@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Image, View, Text, StyleSheet, Platform } from 'react-native';
+import { Image, View, Text, StyleSheet, Platform, TextInput, Button as RNButton } from 'react-native';
 import { Button } from '@ant-design/react-native';
 import { WebView } from 'react-native-webview';
 import { check, request, PERMISSIONS, RESULTS } from 'react-native-permissions';
@@ -31,11 +31,11 @@ const requestPermissions = async () => {
 const App: React.FC = () => {
     const [showWelcome, setShowWelcome] = useState(true);
     const [hasError, setHasError] = useState(false);
+    const [url, setUrl] = useState<string>('');
+    const [loadWebView, setLoadWebView] = useState(false);
 
     useEffect(() => {
-        // Requesting permissions on component mount
         requestPermissions();
-
         if (showWelcome) {
             setTimeout(() => {
                 setShowWelcome(false);
@@ -60,9 +60,25 @@ const App: React.FC = () => {
         );
     }
 
+    if (!loadWebView) {
+        return (
+            <View style={styles.container}>
+                <TextInput
+                    style={styles.input}
+                    placeholder="Enter the URL"
+                    onChangeText={setUrl}
+                    value={url}
+                />
+                <RNButton title="Go" onPress={() => { 
+                    if (url) setLoadWebView(true); 
+                }} />
+            </View>
+        );
+    }
+
     return (
         <WebView 
-            source={{ uri: 'https://jio-pc.cloudsandbox.in' }}
+            source={{ uri: url }}
             onError={(syntheticEvent) => {
                 const { nativeEvent } = syntheticEvent;
                 console.warn('WebView error: ', nativeEvent);
@@ -94,6 +110,16 @@ const styles = StyleSheet.create({
         marginBottom: 20,
         color: 'red',
         fontSize: 16
+    },
+    input: {
+        width: 300,
+        height: 40,
+        borderColor: 'gray',
+        borderWidth: 1,
+        marginBottom: 20,
+        paddingHorizontal: 10,
+        backgroundColor: 'white',
+        color: 'black'
     }
 });
 
